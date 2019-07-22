@@ -3,25 +3,26 @@ import re
 import sys
 
 def read(problem, strategy):
-    with open("new_test.txt","r+") as file:
+    with open("result.txt","r+") as file:
         lines = file.readlines()
         Totaltime = 0
-        #Status = 0
+        Status = "wrong"
         action = False
         rows = []
         for line in lines:
             row = []
-            line = line.replace("\n", "")
             if "Time elapsed" in line:
-                Totaltime = line.split(":")[1]
-            else:
-                return
-            #try:
-            #    if "status" in line:
-            #        Status = line.split(" ")[3]
-            #except IndexError as e:
-            #    pass
+                temp = line.split(":")[1]
+                Totaltime = temp.split("s")[0]
+            try:
+                if "status" in line:
+                    Status = line.split(" ")[3]
+                elif "Time limit" in line:
+                    Status = 0
+            except IndexError as e:
+                pass
             if action == True:
+                line = line.replace("\n", "")
                 temp = re.split("[%:]", line)
                 try:
                     ClockName = re.split("[%:]", line)[1]
@@ -37,25 +38,30 @@ def read(problem, strategy):
                     pass
             if line == "% Time measurement results:\n":
                 action = True
-        rowb = [problem, strategy, Totaltime]
+        rowb = [problem, strategy, Totaltime, Status]
     file.close()
+    if Status == "wrong":
+        print("error")
+        exit()
     return rows, rowb
 
 
 if __name__ == '__main__':
-    name = "./vampire_rel_master_4055 C:/Users/caspe/PycharmProjects/Leo_test/AGT/AGT031^2.p --include ../TPTP-v7.2.0/ --decode lrs+11_1_bd=off:nm=64:newcnf=on:nwc=1:stl=30:sac=on:add=off:afr=on:afp=100000:afq=1.1:amm=off:anc=none:sp=reverse_arity:urr=on:updr=off_4ott+11_2:1_bd=off:ile=on:irw=on:lma=on:nm=64:newcnf=on:nwc=1:av=off_6 --time_statistics on -p off -t 10s"
-    name1 = sys.argv[2]
-    name2 = sys.argv[6]
+    name1 = ""
+    name2 = ""
+    try:
+        name1 = sys.argv[2]
+        name2 = sys.argv[6]
+    except IndexError as e:
+        print("white blank")
+        exit()
     rows, rowb = read(name1.split("/")[-1], name2)
-    headers = ['Problem', 'Strategy', 'Clockname', 'Overall time', 'Own time']
     with open('test1.csv', 'a+')as f:
         f_csv = csv.writer(f)
-        # f_csv.writerow(headers)
         f_csv.writerows(rows)
         f.close()
     with open('test2.csv', 'a+')as f2:
         f_csv = csv.writer(f2)
-        # f_csv.writerow(headers)
         f_csv.writerow(rowb)
         f2.close()
 

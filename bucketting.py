@@ -75,7 +75,7 @@ def random_selection(res):
         else:
             continue
 
-    print(index)
+    # print(index)
     for idx in index:
         strategy_list = strategy.split("\n")
         for strategy_item in strategy_list:
@@ -117,7 +117,7 @@ class CombineSIM(object):
         self.result = {}
 
     def __call__(self, line):
-        print(line)
+        # print(line)
 
         file_name = line[CONTENT_FILE_NAME]
   
@@ -147,7 +147,7 @@ class CombineTPTP(object):
     def __call__(self, line):
         # self.cnt += 1
         if (len(line) < 2):
-            print(line)
+            # print(line)
             return
         # the first element is file name
         file_name = line[CONTENT_FILE_NAME]
