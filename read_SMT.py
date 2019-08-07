@@ -41,7 +41,7 @@ def read(problem, strategy):
         rowb = [problem, strategy, Totaltime, Status]
     file.close()
     if Status == "wrong":
-        print("error")
+        print("error with "+problem+" and "+strategy)
         exit()
     return rows, rowb
 
@@ -64,5 +64,3 @@ if __name__ == '__main__':
         f_csv = csv.writer(f2)
         f_csv.writerow(rowb)
         f2.close()
-
-
