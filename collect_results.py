@@ -41,7 +41,7 @@ def read(problem, strategy):
         rowb = [problem, strategy, Totaltime, Status]
     file.close()
     if Status == "wrong":
-        print("error")
+        print("error with "+problem+" and "+strategy)
         exit()
     return rows, rowb
 
